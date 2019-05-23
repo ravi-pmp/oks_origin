@@ -2,12 +2,12 @@
 - hosts: all
   become: True
   tasks:
-          #- name: add docker repo 
-          #shell:  ' sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo' 
-          #run_once: true
+    - name: add docker repo 
+      shell:  ' sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo' 
+      run_once: true
     - name: install docker pre-req
       yum: 
-        name: yum-utils,device-mapper-persistent-data,lvm2,centos-release-openshift-origin311,epel-release,docker,git,pyOpenSSL
+        name: yum-utils,device-mapper-persistent-data,lvm2,centos-release-openshift-origin311,epel-release,docker,git,pyOpenSSL,NetworkManager
         state: present 
         #- name: install docker
         #yum: 
@@ -19,6 +19,11 @@
         state: started
         enabled: yes  
 
+    - name: start and auto-start NetworkManager
+      service: 
+        name: NetworkManager
+        state: started
+        enabled: yes  
     - name: enable selinux  
       selinux:
         policy: targeted
