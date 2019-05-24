@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  # any PV name
+  name: nfs-pv
+spec:
+  capacity:
+    # storage size
+    storage: 500Mi
+  accessModes:
+    # ReadWriteMany(RW from multi nodes), ReadWriteOnce(RW from a node), ReadOnlyMany(R from multi nodes)
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy:
+    # retain even if pods terminate
+    Retain
+  nfs:
+    # NFS server's definition
+    path: /var/myshare
+    server: 172.31.18.210
+    readOnly: false
